@@ -145,28 +145,27 @@ export default function PortfolioSection() {
                   className="group relative block w-full overflow-hidden rounded-3xl"
                 >
                   <video
-                    src={post.video}
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="h-full w-full aspect-[4/5] object-cover transition-transform duration-300 group-hover:scale-105"
-                    onMouseEnter={(e) => {
-                      const v = e.currentTarget;
-                      v.currentTime = 0; // mulai dari awal
-                      v.play();
-                    }}
-                    onMouseLeave={(e) => {
-                      const v = e.currentTarget;
-                      v.pause();
-                      v.currentTime = 0; // balik ke frame awal
-                    }}
-                    onTimeUpdate={(e) => {
-                      const v = e.currentTarget;
-                      if (v.currentTime >= post.teaserDuration) {
-                        v.currentTime = 0; // loop hanya 0–teaserDuration
-                      }
-                    }}
-                  />
+  src={post.video}
+  muted
+  playsInline
+  preload="auto"
+  autoPlay
+  loop
+  className="h-full w-full aspect-[4/5] object-cover transition-transform duration-300 group-hover:scale-105"
+  onLoadedMetadata={(e) => {
+    const v = e.currentTarget;
+    // loncat dikit dari 0 biar gak freeze di frame hitam
+    if (v.currentTime < 0.1) v.currentTime = 0.1;
+  }}
+  onTimeUpdate={(e) => {
+    const v = e.currentTarget;
+    // batasi loop hanya 0–teaserDuration detik
+    if (v.currentTime >= post.teaserDuration) {
+      v.currentTime = 0.1;
+    }
+  }}
+/>
+
 
                   {/* Layer gradient tetap ada */}
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
@@ -245,24 +244,24 @@ export default function PortfolioSection() {
                   }}
                 >
                   <video
-                    src={video.video}
-                    playsInline
-                    preload="metadata"
-                    className="h-full w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                    onTimeUpdate={(e) => {
-                      const v = e.currentTarget;
-                      if (v.currentTime >= video.teaserDuration) {
-                        v.currentTime = 0; // loop 0–teaserDuration
-                      }
-                    }}
-                    onLoadedData={(e) => {
-                      const v = e.currentTarget;
-                      if (v.currentTime === 0) {
-                        v.currentTime = 0.1;
-                        v.pause();
-                      }
-                    }}
-                  />
+  src={video.video}
+  playsInline
+  preload="auto"
+  autoPlay
+  loop
+  muted
+  className="h-full w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
+  onLoadedMetadata={(e) => {
+    const v = e.currentTarget;
+    if (v.currentTime < 0.1) v.currentTime = 0.1;
+  }}
+  onTimeUpdate={(e) => {
+    const v = e.currentTarget;
+    if (v.currentTime >= video.teaserDuration) {
+      v.currentTime = 0.1;
+    }
+  }}
+/>
 
                   {/* gradient */}
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
