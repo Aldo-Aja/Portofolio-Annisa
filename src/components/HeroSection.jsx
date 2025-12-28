@@ -1,16 +1,16 @@
-import React from 'react'
-import { Phone, Mail, Instagram } from 'lucide-react'
+import React from "react";
+import { Phone, Mail, Instagram } from "lucide-react";
 
 export default function HeroSection() {
   const scrollTo = (id) => {
-    const el = document.getElementById(id)
-    if (!el) return
-    const offset = 80
-    const rect = el.getBoundingClientRect()
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    const top = rect.top + scrollTop - offset
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
+    const el = document.getElementById(id);
+    if (!el) return;
+    const offset = 80;
+    const rect = el.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const top = rect.top + scrollTop - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
 
   return (
     <section id="about" className="bg-[#F4ECE6] pt-28 pb-20">
@@ -21,28 +21,36 @@ export default function HeroSection() {
             <span className="h-[2px] w-6 bg-[#E6B9C0]" />
             Halo, Annisa di sini
           </span>
+
           <h1 className="font-serif text-4xl md:text-5xl font-bold text-[#222222] leading-tight">
             Halo,
             <span className="block">Annisa di sini!</span>
           </h1>
+
           <p className="font-body text-base md:text-lg text-[#666666] leading-relaxed">
             Perkenalkan, saya{" "}
             <span className="font-semibold text-[#222222]">
               Annisa Furna Nazuwa
             </span>
-            , pelajar SMK Prestasi Prima jurusan Desain Komunikasi Visual (DKV)
-            di Jakarta Timur. Saya memiliki ketertarikan pada bidang fotografi,
-            videografi, content creating, dan desain grafis, serta terbiasa
-            menggunakan beberapa software editing untuk mendukung proses
-            berkarya.
+            . Seorang pelajar yang sekarang bersekolah di SMK Prestasi Prima
+            dengan{" "}
+            <span className="font-semibold text-[#222222]">
+              jurusan Desain Komunikasi Visual (DKV)
+            </span>{" "}
+            yang berada di Jakarta Timur.{" "}
+            <span className="font-semibold text-[#222222]">
+              Saya memiliki ketertarikan pada bidang Fotografi, Videografi,
+              Content Creating, dan Desain Grafis.
+            </span>{" "}
+            Saya dapat mengoperasikan beberapa software editing dengan cukup
+            baik.
           </p>
+
           <div className="font-body space-y-1 text-sm text-[#666666]">
-            <p>• Mampu bekerja sama dalam tim dengan baik.</p>
-            <p>• Terbuka dalam berkomunikasi dan menerima masukan.</p>
-            <p>
-              • Bertanggung jawab dan berkomitmen pada amanah yang diberikan.
-            </p>
+            <p>• Mampu bekerja sama dan berkomunikasi dengan baik.</p>
+            <p>• Mampu berkomitmen dan menjaga amanah yang diberikan.</p>
           </div>
+
           <div className="flex flex-wrap gap-4 pt-4">
             <button
               type="button"

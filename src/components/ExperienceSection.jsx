@@ -2,39 +2,39 @@ import React from 'react'
 
 const experiences = [
   {
-    title: 'Sekretaris Umum OSIS',
-    organization: 'SMP Nassa School',
-    period: '2022 – 2023',
+    title: "Sekretaris Umum OSIS",
+    organization: "SMP Nassa School",
+    period: "2022 – 2023",
     responsibilities: [
-      'Membantu ketua dalam mengawasi kinerja OSIS dan menjalankan program kerja',
-      'Menyusun dan mengelola administrasi organisasi',
-      'Menyiarkan, mendistribusikan, dan menyimpan surat serta arsip kegiatan',
-      'Bertindak sebagai notulis dalam rapat dan kegiatan resmi',
+      "Membantu ketua dalam mengawasi kinerja OSIS dan menjalankan program kerja",
+      "Menyusun dan mengelola administrasi organisasi",
+      "Menyiarkan, mendistribusikan, dan menyimpan surat serta arsip kegiatan",
+      "Bertindak sebagai notulis dalam rapat dan kegiatan resmi",
     ],
   },
   {
-    title: 'Volunteer Green Competition',
-    organization: 'Kegiatan Lingkungan',
-    period: '2023',
+    title: "Volunteer Green Competition",
+    organization: "Kegiatan Lingkungan",
+    period: "2023",
     responsibilities: [
-      'Membantu persiapan teknis dan dekorasi area kegiatan',
-      'Mengarahkan peserta dan memberikan informasi kepada pengunjung',
-      'Mendokumentasikan momen kegiatan untuk kebutuhan publikasi',
-      'Berkoordinasi dengan panitia lain agar acara berjalan lancar',
+      "Membantu persiapan teknis dan dekorasi area kegiatan",
+      "Mengarahkan peserta dan memberikan informasi kepada pengunjung",
+      "Mendokumentasikan momen kegiatan untuk kebutuhan publikasi",
+      "Berkoordinasi dengan panitia lain agar acara berjalan lancar",
     ],
   },
   {
-    title: 'Wakil Sekretaris OSIS',
-    organization: 'SMK Prestasi Prima',
-    period: '2024 – Sekarang',
+    title: "Sekretaris OSIS",
+    organization: "SMK Prestasi Prima",
+    period: "2024 – Sekarang",
     responsibilities: [
-      'Mendampingi sekretaris dalam pengelolaan administrasi OSIS',
-      'Membantu menyusun notulen dan laporan kegiatan',
-      'Mendokumentasikan dan mengarsipkan surat serta proposal kegiatan',
-      'Ikut terlibat dalam perencanaan dan evaluasi program kerja OSIS',
+      "Mendampingi Ketua dan Wakil Ketua dalam pengelolaan administrasi OSIS",
+      "Menyusun notulen dan laporan kegiatan",
+      "Membuat dan mengarsipkan surat serta proposal kegiatan",
+      "Ikut terlibat dalam perencanaan dan evaluasi program kerja OSIS",
     ],
   },
-]
+];
 
 export default function ExperienceSection() {
   return (

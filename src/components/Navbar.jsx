@@ -36,21 +36,21 @@ export default function Navbar() {
       }`}
     >
       <div className="section-container flex items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <img
-              src="/img/FotoAnnisa.jpg" 
-              alt="Foto profil Annisa Furna Nazuwa"
-              className="h-8 w-8 rounded-full object-cover"
-            />
-            <div className="flex flex-col leading-tight">
-              <span className="font-heading text-[20px] font-semibold text-[#222222]">
-                Annisa Furna Nazuwa
-              </span>
-              <span className="text-xs text-[#666666]">
-                Student • Desain Komunikasi Visual
-              </span>
-            </div>
+        <div className="flex items-center gap-2">
+          <img
+            src="/img/FotoAnnisa.jpg"
+            alt="Foto profil Annisa Furna Nazuwa"
+            className="h-8 w-8 rounded-full object-cover"
+          />
+          <div className="flex flex-col leading-normal">
+            <span className="font-heading text-[20px] font-semibold text-[#222222]">
+              Annisa Furna Nazuwa
+            </span>
+            <span className="text-xs text-[#666666]">
+              Student • Desain Komunikasi Visual
+            </span>
           </div>
+        </div>
 
         <div className="hidden md:flex items-center gap-8">
           <div className="flex items-center gap-6 text-sm font-medium text-[#666666]">
@@ -66,7 +66,8 @@ export default function Navbar() {
             ))}
           </div>
           <a
-            href="#"
+            href="/cv/CV-Annisa.pdf"
+            download="Annisa-Furna-Nazuwa-CV.pdf"
             className="inline-flex items-center gap-2 rounded-full border border-[#222222] bg-white px-5 py-2.5 text-xs font-semibold text-[#222222] shadow-sm hover:bg-[#222222] hover:text-white transition-colors"
           >
             <Download className="h-4 w-4" />
