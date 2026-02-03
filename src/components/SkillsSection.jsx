@@ -1,10 +1,21 @@
-import React from 'react'
-
-const hardSkills = ['Adobe Illustrator', 'Adobe Photoshop', 'Canva', 'Capcut', 'Microsoft Office']
-
-const softSkills = ['Kerjasama Tim', 'Komunikasi', 'Organisasi', 'Public Speaking']
+import React, { useEffect, useState } from "react";
+import { supabase } from "../lib/supabaseClient";
 
 export default function SkillsSection() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Mengambil data baris 'skills' dari database
+    supabase
+      .from("portfolio_content")
+      .select("content")
+      .eq("section_name", "skills")
+      .single()
+      .then(({ data }) => setData(data?.content));
+  }, []);
+
+  if (!data) return null;
+
   return (
     <section id="skills" className="bg-white py-24">
       <div className="section-container">
@@ -18,13 +29,14 @@ export default function SkillsSection() {
         </div>
 
         <div className="grid gap-10 md:grid-cols-3">
+          {/* Hard Skills */}
           <div>
             <h3 className="text-xl font-semibold text-[#222222] mb-4">
               Hard Skill
             </h3>
             <ul className="space-y-2 text-sm text-[#666666]">
-              {hardSkills.map((skill) => (
-                <li key={skill} className="flex items-center gap-2">
+              {data.hard_skills?.map((skill, index) => (
+                <li key={index} className="flex items-center gap-2">
                   <span className="h-[6px] w-[6px] rounded-full bg-[#E6B9C0]" />
                   <span>{skill}</span>
                 </li>
@@ -32,13 +44,14 @@ export default function SkillsSection() {
             </ul>
           </div>
 
+          {/* Soft Skills */}
           <div>
             <h3 className="text-xl font-semibold text-[#222222] mb-4">
               Soft Skill
             </h3>
             <ul className="space-y-2 text-sm text-[#666666]">
-              {softSkills.map((skill) => (
-                <li key={skill} className="flex items-center gap-2">
+              {data.soft_skills?.map((skill, index) => (
+                <li key={index} className="flex items-center gap-2">
                   <span className="h-[6px] w-[6px] rounded-full bg-[#E6B9C0]" />
                   <span>{skill}</span>
                 </li>
@@ -46,13 +59,10 @@ export default function SkillsSection() {
             </ul>
           </div>
 
-          <div className="bg-[#FAF7F4] border border-[#E6B9C0]/30 rounded-3xl p-8 flex items-center">
+          {/* Description Box */}
+          <div className="bg-[#FAF7F4] border border-[#E6B9C0]/30 rounded-3xl p-8 flex items-center shadow-sm">
             <p className="text-sm leading-relaxed text-[#666666]">
-              Saya terbiasa bekerja dalam tim dan berkoordinasi dengan berbagai
-              pihak untuk menyelesaikan sebuah project. Selain kemampuan teknis
-              dalam mengoperasikan software desain dan editing, saya juga
-              berusaha menjaga komunikasi yang baik, disiplin terhadap deadline,
-              dan bertanggung jawab terhadap amanah yang diberikan.
+              {data.description}
             </p>
           </div>
         </div>
