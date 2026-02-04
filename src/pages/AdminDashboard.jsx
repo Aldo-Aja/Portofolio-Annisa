@@ -569,7 +569,7 @@ export default function AdminDashboard() {
             {/* --- EXPERIENCE EDITOR --- */}
             {activeTab === "experience" && (
               <DynamicListEditor
-                title="Daftar Pengalaman Organisasi"
+                title="Daftar Pengalaman "
                 items={data.experience || []}
                 onChange={(v) => setData({ ...data, experience: v })}
                 schema={[
