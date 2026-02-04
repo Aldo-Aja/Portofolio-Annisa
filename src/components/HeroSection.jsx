@@ -16,25 +16,10 @@ export default function HeroSection() {
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
-    if (el) {
-      const offset = 80;
-      const rect = el.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-      const top = rect.top + scrollTop - offset;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   if (!data) return <div className="py-20 text-center">Loading Hero...</div>;
-
-  // Helper untuk mengambil style dengan aman
-  const getStyle = (key) => ({
-    color: data.styles?.[key]?.color,
-    fontSize: data.styles?.[key]?.fontSize,
-    fontWeight: data.styles?.[key]?.fontWeight,
-    fontStyle: data.styles?.[key]?.fontStyle,
-  });
 
   return (
     <section id="about" className="bg-[#F4ECE6] pt-28 pb-20">
@@ -42,25 +27,21 @@ export default function HeroSection() {
         <div className="space-y-6">
           <span className="inline-flex items-center gap-2 text-xs tracking-[0.3em] uppercase text-[#666666]">
             <span className="h-[2px] w-6 bg-[#E6B9C0]" />
-            Halo, {data.name?.split(" ")[0]} di sini
+            Halo, Annisa di sini
           </span>
 
-          {/* JUDUL UTAMA (NAMA) DENGAN STYLE DINAMIS */}
-          <h1
-            className="font-serif text-4xl md:text-5xl font-bold text-[#222222] leading-tight"
-            style={getStyle("name")}
-          >
-            Halo,{" "}
-            <span className="block">{data.name?.split(" ")[0]} di sini!</span>
-          </h1>
+          {/* JUDUL UTAMA (NAMA) - DIRENDER SEBAGAI HTML */}
+          {/* class 'prose' digunakan agar style bold/italic dari editor terbaca */}
+          <div
+            className="font-serif text-4xl md:text-5xl font-bold text-[#222222] leading-tight [&>p]:mb-0 [&>p]:leading-tight"
+            dangerouslySetInnerHTML={{ __html: data.name }}
+          />
 
-          {/* DESKRIPSI DENGAN STYLE DINAMIS */}
-          <p
-            className="font-body text-base md:text-lg text-[#666666] leading-relaxed"
-            style={getStyle("description")}
-          >
-            {data.description}
-          </p>
+          {/* DESKRIPSI - DIRENDER SEBAGAI HTML */}
+          <div
+            className="font-body text-base md:text-lg text-[#666666] leading-relaxed [&>p]:mb-2"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
 
           <div className="font-body space-y-1 text-sm text-[#666666]">
             <p>• Mampu bekerja sama dan berkomunikasi dengan baik.</p>
@@ -89,14 +70,15 @@ export default function HeroSection() {
             <div className="h-80 w-full rounded-3xl overflow-hidden">
               <img
                 src={data.image_url}
-                alt={data.name}
+                alt="Profile"
                 className="h-full w-full object-cover"
               />
             </div>
 
             <div className="mt-4 text-center">
+              {/* Note: Karena 'name' sekarang HTML panjang, kita ambil teks plainnya saja untuk label kecil ini atau biarkan kosong */}
               <p className="font-serif text-lg font-semibold text-[#222222]">
-                {data.name}
+                Annisa Furna Nazuwa
               </p>
               <p className="text-xs text-[#666666]">{data.role}</p>
             </div>

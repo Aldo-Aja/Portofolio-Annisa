@@ -13,10 +13,20 @@ import {
   User,
   PenTool,
   Layout,
-  Type,
-  Bold,
-  Italic,
 } from "lucide-react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import Style Default Quill
+
+// --- CONFIG QUILL (TOOLBAR) ---
+// Mengatur tombol apa saja yang muncul di editor (Bold, Italic, Warna, dll)
+const modules = {
+  toolbar: [
+    ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }], // Dropdown warna
+    [{ header: [1, 2, 3, false] }],
+    ["clean"], // Tombol hapus format
+  ],
+};
 
 // --- KOMPONEN: IMAGE/VIDEO UPLOADER ---
 const MediaUploader = ({ currentUrl, onUpload, label, type = "image" }) => {
@@ -89,103 +99,7 @@ const MediaUploader = ({ currentUrl, onUpload, label, type = "image" }) => {
   );
 };
 
-// --- KOMPONEN BARU: TEXT STYLE EDITOR ---
-const TextStyleEditor = ({ label, styleData, onChange }) => {
-  const updateStyle = (key, value) => {
-    onChange({ ...styleData, [key]: value });
-  };
-
-  return (
-    <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 mt-3">
-      <div className="flex items-center gap-2 mb-3 text-gray-700 border-b pb-2">
-        <Type size={14} />
-        <h4 className="text-xs font-bold uppercase">{label}</h4>
-      </div>
-
-      <div className="flex flex-wrap gap-6 items-center">
-        {/* Warna */}
-        <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-gray-400 uppercase">
-            Warna
-          </span>
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={styleData?.color || "#000000"}
-              onChange={(e) => updateStyle("color", e.target.value)}
-              className="w-8 h-8 rounded cursor-pointer border-0 p-0 overflow-hidden shadow-sm"
-            />
-            <span className="text-xs text-gray-500 font-mono bg-white px-1 rounded border">
-              {styleData?.color || "#000"}
-            </span>
-          </div>
-        </div>
-
-        {/* Ukuran Font */}
-        <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-gray-400 uppercase">
-            Ukuran (px)
-          </span>
-          <input
-            type="number"
-            value={parseInt(styleData?.fontSize) || ""}
-            placeholder="Auto"
-            onChange={(e) =>
-              updateStyle(
-                "fontSize",
-                e.target.value ? `${e.target.value}px` : undefined
-              )
-            }
-            className="w-20 p-1.5 border rounded text-xs text-center focus:border-black outline-none"
-          />
-        </div>
-
-        {/* Style Toggles */}
-        <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold text-gray-400 uppercase">
-            Gaya
-          </span>
-          <div className="flex gap-1">
-            <button
-              onClick={() =>
-                updateStyle(
-                  "fontWeight",
-                  styleData?.fontWeight === "bold" ? "normal" : "bold"
-                )
-              }
-              className={`p-1.5 px-3 rounded border transition text-xs ${
-                styleData?.fontWeight === "bold"
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
-              title="Bold"
-            >
-              <Bold size={14} /> Bold
-            </button>
-            <button
-              onClick={() =>
-                updateStyle(
-                  "fontStyle",
-                  styleData?.fontStyle === "italic" ? "normal" : "italic"
-                )
-              }
-              className={`p-1.5 px-3 rounded border transition text-xs ${
-                styleData?.fontStyle === "italic"
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
-              title="Italic"
-            >
-              <Italic size={14} /> Italic
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// --- KOMPONEN LIST EDITORS (SAMA SEPERTI SEBELUMNYA) ---
+// --- KOMPONEN LIST EDITORS ---
 const StringListEditor = ({ title, items, onChange }) => (
   <div className="bg-gray-50 p-4 rounded-xl border mb-4">
     <div className="flex justify-between items-center mb-3">
@@ -495,36 +409,25 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                {/* EDITOR NAMA + FONT */}
+                {/* EDITOR NAMA DENGAN RICH TEXT */}
                 <div>
-                  <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">
-                    Nama Panggilan
+                  <label className="text-xs font-bold text-gray-500 uppercase mb-2 block">
+                    Judul / Headline Utama
                   </label>
-                  <input
-                    className="w-full p-3 border rounded-lg bg-gray-50 focus:bg-white transition"
-                    value={data.hero?.name}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        hero: { ...data.hero, name: e.target.value },
-                      })
-                    }
-                  />
-
-                  {/* TOMBOL PENGATUR FONT NAMA */}
-                  <TextStyleEditor
-                    label="Kustomisasi Font Nama"
-                    styleData={data.hero?.styles?.name || {}}
-                    onChange={(v) =>
-                      setData({
-                        ...data,
-                        hero: {
-                          ...data.hero,
-                          styles: { ...data.hero.styles, name: v },
-                        },
-                      })
-                    }
-                  />
+                  <div className="bg-white">
+                    <ReactQuill
+                      theme="snow"
+                      modules={modules}
+                      value={data.hero?.name || ""}
+                      onChange={(val) =>
+                        setData({ ...data, hero: { ...data.hero, name: val } })
+                      }
+                    />
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-1">
+                    *Tulis lengkap kalimatnya di sini (misal: "Halo,{" "}
+                    <strong>Annisa</strong> di sini!")
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -545,36 +448,24 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* EDITOR DESKRIPSI + FONT */}
+                {/* EDITOR DESKRIPSI DENGAN RICH TEXT */}
                 <div>
-                  <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">
+                  <label className="text-xs font-bold text-gray-500 uppercase mb-2 block">
                     Deskripsi Diri
                   </label>
-                  <textarea
-                    className="w-full p-3 border rounded-lg bg-gray-50 h-32 focus:bg-white transition"
-                    value={data.hero?.description}
-                    onChange={(e) =>
-                      setData({
-                        ...data,
-                        hero: { ...data.hero, description: e.target.value },
-                      })
-                    }
-                  />
-
-                  {/* TOMBOL PENGATUR FONT DESKRIPSI */}
-                  <TextStyleEditor
-                    label="Kustomisasi Font Deskripsi"
-                    styleData={data.hero?.styles?.description || {}}
-                    onChange={(v) =>
-                      setData({
-                        ...data,
-                        hero: {
-                          ...data.hero,
-                          styles: { ...data.hero.styles, description: v },
-                        },
-                      })
-                    }
-                  />
+                  <div className="bg-white">
+                    <ReactQuill
+                      theme="snow"
+                      modules={modules}
+                      value={data.hero?.description || ""}
+                      onChange={(val) =>
+                        setData({
+                          ...data,
+                          hero: { ...data.hero, description: val },
+                        })
+                      }
+                    />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">

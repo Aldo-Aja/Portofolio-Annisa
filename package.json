@@ -13,6 +13,7 @@
     "lucide-react": "^0.563.0",
     "react": "*",
     "react-dom": "*",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
