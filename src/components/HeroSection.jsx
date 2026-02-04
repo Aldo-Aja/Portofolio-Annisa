@@ -5,18 +5,13 @@ import { supabase } from "../lib/supabaseClient";
 export default function HeroSection() {
   const [data, setData] = useState(null);
 
-  // Ambil data dari Supabase saat web dibuka
   useEffect(() => {
-    async function fetchData() {
-      const { data: dbData } = await supabase
-        .from("portfolio_content")
-        .select("content")
-        .eq("section_name", "hero")
-        .single();
-
-      if (dbData) setData(dbData.content);
-    }
-    fetchData();
+    supabase
+      .from("portfolio_content")
+      .select("content")
+      .eq("section_name", "hero")
+      .single()
+      .then(({ data }) => setData(data?.content));
   }, []);
 
   const scrollTo = (id) => {
@@ -31,30 +26,39 @@ export default function HeroSection() {
     }
   };
 
-  // Tampilan Loading sementara data diambil
-  if (!data)
-    return (
-      <div className="h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
+  if (!data) return <div className="py-20 text-center">Loading Hero...</div>;
+
+  // Helper untuk mengambil style dengan aman
+  const getStyle = (key) => ({
+    color: data.styles?.[key]?.color,
+    fontSize: data.styles?.[key]?.fontSize,
+    fontWeight: data.styles?.[key]?.fontWeight,
+    fontStyle: data.styles?.[key]?.fontStyle,
+  });
 
   return (
     <section id="about" className="bg-[#F4ECE6] pt-28 pb-20">
       <div className="section-container grid items-center gap-12 md:grid-cols-2">
-        {/* Text Area */}
         <div className="space-y-6">
           <span className="inline-flex items-center gap-2 text-xs tracking-[0.3em] uppercase text-[#666666]">
             <span className="h-[2px] w-6 bg-[#E6B9C0]" />
             Halo, {data.name?.split(" ")[0]} di sini
           </span>
 
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-[#222222] leading-tight">
-            Halo,
+          {/* JUDUL UTAMA (NAMA) DENGAN STYLE DINAMIS */}
+          <h1
+            className="font-serif text-4xl md:text-5xl font-bold text-[#222222] leading-tight"
+            style={getStyle("name")}
+          >
+            Halo,{" "}
             <span className="block">{data.name?.split(" ")[0]} di sini!</span>
           </h1>
 
-          <p className="font-body text-base md:text-lg text-[#666666] leading-relaxed">
+          {/* DESKRIPSI DENGAN STYLE DINAMIS */}
+          <p
+            className="font-body text-base md:text-lg text-[#666666] leading-relaxed"
+            style={getStyle("description")}
+          >
             {data.description}
           </p>
 
@@ -83,7 +87,6 @@ export default function HeroSection() {
         <div className="flex justify-center md:justify-end">
           <div className="relative rounded-[32px] border-[10px] border-[#F4ECE6] bg-white p-4 shadow-soft w-72 md:w-80">
             <div className="h-80 w-full rounded-3xl overflow-hidden">
-              {/* Gambar diambil dari URL Supabase */}
               <img
                 src={data.image_url}
                 alt={data.name}
