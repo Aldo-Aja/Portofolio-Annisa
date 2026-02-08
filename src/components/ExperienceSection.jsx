@@ -23,7 +23,7 @@ export default function ExperienceSection() {
       <div className="section-container">
         <div className="mb-12 text-center">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#222222] mb-3">
-            Pengalaman Organisasi
+            Pengalaman
           </h2>
         </div>
 
