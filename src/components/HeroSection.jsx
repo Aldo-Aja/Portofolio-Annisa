@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Phone, Mail, Instagram } from "lucide-react";
+import { Phone, Mail, Instagram, Download } from "lucide-react"; // Import ikon Download
 import { supabase } from "../lib/supabaseClient";
 
 export default function HeroSection() {
@@ -30,14 +30,11 @@ export default function HeroSection() {
             Halo, Annisa di sini
           </span>
 
-          {/* JUDUL UTAMA (NAMA) - DIRENDER SEBAGAI HTML */}
-          {/* class 'prose' digunakan agar style bold/italic dari editor terbaca */}
           <div
             className="font-serif text-4xl md:text-5xl font-bold text-[#222222] leading-tight [&>p]:mb-0 [&>p]:leading-tight"
             dangerouslySetInnerHTML={{ __html: data.name }}
           />
 
-          {/* DESKRIPSI - DIRENDER SEBAGAI HTML */}
           <div
             className="font-body text-base md:text-lg text-[#666666] leading-relaxed [&>p]:mb-2"
             dangerouslySetInnerHTML={{ __html: data.description }}
@@ -55,16 +52,29 @@ export default function HeroSection() {
             >
               Lihat Portofolio
             </button>
-            <button
-              onClick={() => scrollTo("contact")}
-              className="rounded-full border border-[#222222] bg-transparent px-6 py-3 text-sm font-semibold text-[#222222] hover:bg-[#222222] hover:text-white transition-colors"
-            >
-              Kontak Saya
-            </button>
+
+            {/* TOMBOL DOWNLOAD CV DINAMIS */}
+            {data.cv_url ? (
+              <a
+                href={data.cv_url}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 rounded-full border border-[#222222] bg-transparent px-6 py-3 text-sm font-semibold text-[#222222] hover:bg-[#222222] hover:text-white transition-colors"
+              >
+                <Download size={16} /> Download CV
+              </a>
+            ) : (
+              // Fallback jika CV belum diupload
+              <button
+                onClick={() => scrollTo("contact")}
+                className="rounded-full border border-[#222222] bg-transparent px-6 py-3 text-sm font-semibold text-[#222222] hover:bg-[#222222] hover:text-white transition-colors"
+              >
+                Kontak Saya
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Polaroid Image */}
         <div className="flex justify-center md:justify-end">
           <div className="relative rounded-[32px] border-[10px] border-[#F4ECE6] bg-white p-4 shadow-soft w-72 md:w-80">
             <div className="h-80 w-full rounded-3xl overflow-hidden">
@@ -74,9 +84,7 @@ export default function HeroSection() {
                 className="h-full w-full object-cover"
               />
             </div>
-
             <div className="mt-4 text-center">
-              {/* Note: Karena 'name' sekarang HTML panjang, kita ambil teks plainnya saja untuk label kecil ini atau biarkan kosong */}
               <p className="font-serif text-lg font-semibold text-[#222222]">
                 Annisa Furna Nazuwa
               </p>
@@ -86,7 +94,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Contact Strip */}
       <div className="mt-12 border-t border-[#E6B9C0]/40">
         <div className="section-container flex flex-wrap items-center gap-6 py-6 text-sm text-[#666666]">
           <div className="flex items-center gap-3">

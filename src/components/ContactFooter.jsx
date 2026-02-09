@@ -1,9 +1,24 @@
-import React from "react";
-import { Mail, Phone, Instagram } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Mail, Phone, Instagram, Download } from "lucide-react";
+import { supabase } from "../lib/supabaseClient";
 
 export default function ContactFooter() {
-  // Biar gampang reuse mailto
-  const mailto = `mailto:annisafurna@gmail.com?subject=${encodeURIComponent(
+  const [data, setData] = useState(null);
+
+  // Ambil data hero (karena CV URL ada di tabel 'hero')
+  useEffect(() => {
+    supabase
+      .from("portfolio_content")
+      .select("content")
+      .eq("section_name", "hero")
+      .single()
+      .then(({ data }) => setData(data?.content));
+  }, []);
+
+  // Format mailto
+  const mailto = `mailto:${
+    data?.contacts?.email || "annisafurna@gmail.com"
+  }?subject=${encodeURIComponent(
     "Kolaborasi / Project Desain"
   )}&body=${encodeURIComponent(
     `Halo Annisa,
@@ -40,34 +55,37 @@ Terima kasih.`
           <ul className="space-y-2 text-sm text-gray-200">
             <li className="flex items-center gap-3">
               <Phone className="h-4 w-4 text-[#E6B9C0]" />
-              {/* kalau mau langsung ke WA bisa ganti href ke wa.me */}
               <a
-                href="https://wa.me/6287840200900"
+                href={`https://wa.me/${
+                  data?.contacts?.phone?.replace(/[^0-9]/g, "") ||
+                  "6287840200900"
+                }`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline"
               >
-                0878-4020-0900
+                {data?.contacts?.phone || "0878-4020-0900"}
               </a>
             </li>
 
             <li className="flex items-center gap-3">
               <Mail className="h-4 w-4 text-[#E6B9C0]" />
-              {/* jadikan email clickable */}
               <a href={mailto} className="hover:underline">
-                annisafurna@gmail.com
+                {data?.contacts?.email || "annisafurna@gmail.com"}
               </a>
             </li>
 
             <li className="flex items-center gap-3">
               <Instagram className="h-4 w-4 text-[#E6B9C0]" />
               <a
-                href="https://www.instagram.com/annisafrnz__"
+                href={`https://instagram.com/${
+                  data?.contacts?.instagram?.replace("@", "") || "annisafrnz__"
+                }`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline"
               >
-                @annisafrnz__
+                {data?.contacts?.instagram || "@annisafrnz__"}
               </a>
             </li>
           </ul>
@@ -82,12 +100,22 @@ Terima kasih.`
             sesuai kebutuhan.
           </p>
           <div className="flex flex-wrap gap-3">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#222222] hover:bg-[#F4ECE6] transition-colors"
-            >
-              Download CV
-            </a>
+            {/* TOMBOL DOWNLOAD CV DINAMIS */}
+            {data?.cv_url ? (
+              <a
+                href={data.cv_url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#222222] hover:bg-[#F4ECE6] transition-colors gap-2"
+              >
+                <Download size={14} /> Download CV
+              </a>
+            ) : (
+              <span className="inline-flex items-center justify-center rounded-full bg-gray-600 px-5 py-2.5 text-xs font-semibold text-gray-300 cursor-not-allowed">
+                CV Belum Tersedia
+              </span>
+            )}
+
             <a
               href={mailto}
               className="inline-flex items-center justify-center rounded-full border border-gray-400 px-5 py-2.5 text-xs font-semibold text-gray-100 hover:bg-white/10 transition-colors"
@@ -102,11 +130,9 @@ Terima kasih.`
       <div className="mt-10 border-t border-white/10">
         <div className="section-container flex flex-col md:flex-row items-center justify-between gap-4 py-4">
           <p className="text-[11px] text-gray-400">
-            © {new Date().getFullYear()} Annisa Furna Nazuwa. All rights
-            reserved.
-          </p>
-          <p className="text-[11px] text-gray-500">
-            Design &amp; code by Someone
+            © {new Date().getFullYear()}{" "}
+            {data?.name?.replace(/<[^>]*>/g, "") || "Annisa Furna Nazuwa"}. All
+            rights reserved.
           </p>
         </div>
       </div>
